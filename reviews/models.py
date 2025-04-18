@@ -3,8 +3,10 @@ from django.contrib import auth
 
 
 
+# A company that publishes books
+# Publisher (id (primary key) (default), name, website, email)
+# __str__ --> "name"
 class Publisher (models.Model):
-    """A company that publishes books"""
     name = models.CharField (
         "Publisher Name",
         max_length = 50,
@@ -24,14 +26,17 @@ class Publisher (models.Model):
 
 
 
+# A contributor to a book, e.g. author, editor, co-author
+# Contributor (id (primary key) (default), first_names, last_names,
+#              email)
+# __str__ --> "last_name, first_name"
 class Contributor (models.Model):
-    """A contributor to a book, e.g. author, editor, co-author"""
-    first_name = models.CharField (
+    first_names = models.CharField (
         "First Name",
         max_length = 50,
         help_text = "The first name/names of the contributor"
     )
-    last_name = models.CharField (
+    last_names = models.CharField (
         "Last Name",
         max_length = 50,
         help_text = "The last name/names of the contributor"
@@ -46,8 +51,11 @@ class Contributor (models.Model):
 
 
 
+# A published book
+# Book  (id (primary key) (default), title, publication_date, isbn,
+#        publisher (foreign key), contributors (many-to-many))
+# __str__ --> "title"
 class Book (models.Model):
-    """A published book"""
     title = models.CharField (
         "Book Title",
         max_length = 70,
@@ -76,8 +84,11 @@ class Book (models.Model):
 
 
 
+# Intermediate table between Book and Contributor
+# BookContributor (id (primary key) (default), book (foreign key),
+#                  contributor (foreign key), role)
+# role = Author xor Co-Author xor Editor
 class BookContributor (models.Model):
-    """Intermediate table between Book and Contributor"""
     class ContributorRole (models.TextChoices):
         AUTHOR = "AUTHOR", "Author"
         CO_AUTHOR = "CO_AUTHOR", "Co-Author"
@@ -98,6 +109,12 @@ class BookContributor (models.Model):
         help_text = "The role of the contributor"
     )
 
+
+
+# A user review for a book
+# Review (id (primary key) (default), content, rating, date_created,
+#         date_edited (date last edited), reviewer (foreign key),
+#         book (foreign key))
 class Review (models.Model):
     content = models.TextField (
         help_text = "The content/text of the review"
