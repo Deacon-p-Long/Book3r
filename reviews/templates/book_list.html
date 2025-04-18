@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <title>Bookr</title>
+</head>
+<body>
+<h1>Book Review Application</h1>
+<hr>
+<ul>
+    {% for item in book_list %}
+        <li>
+            <span>Title: </span> <span>{{ item.book.title }}</span>
+            <br>
+            <span>Publisher: </span> <span>{{ item.book.publisher }}</span>
+            <br>
+            <span>Publication Date: </span> <span>{{ item.book.publication_date }}</span>
+            <br>
+            <span>Rating: </span> <span>{{ item.rating }}</span>
+            <br>
+            <span>Number of Reviews: </span> <span>{{ item.num_reviews }}</span>
+            <br>
+            {% if item.rating is null %}
+                <span>Be the first to review this book!</span>
+            {% endif %}
+        </li>
+        <br>
+    {% endfor %}
+</ul>
+</body>
+</html>
